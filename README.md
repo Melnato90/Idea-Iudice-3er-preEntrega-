@@ -12,8 +12,8 @@
 
 :heavy_check_mark: Storage
 
-En esta entrega arme un carro de compras para la venta de unas ilustraciones, el cual permite sumar y restar items, asi como calcular el total de los productos añadidos al carrito.
+Armado del carro de compras para la venta de ilustraciones, el cual permite sumar y restar items, asi como calcular el total de los productos añadidos al carrito, tambien se podra encontrar el filtro de imagenes por categorias asignadas.
 
 <h4 align="center">
-:construction: Proyecto en construcción :construction:
+:construction: **Proyecto en construcción** :construction:
 </h4>
