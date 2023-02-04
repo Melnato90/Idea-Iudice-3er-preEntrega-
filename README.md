@@ -1,3 +1,5 @@
+<img align="right" width="600" height="200" src="./imagenes/java.png">
+
 <h1 align="center"> Idea-Iudice-3er-preEntrega-</h1>
 
 :hammer:En esta entrega se agrega:
@@ -15,5 +17,3 @@ En esta entrega arme un carro de compras para la venta de unas ilustraciones, el
 <h4 align="center">
 :construction: Proyecto en construcción :construction:
 </h4>
-
-![Logo javascript](./imagenes/java.png)
