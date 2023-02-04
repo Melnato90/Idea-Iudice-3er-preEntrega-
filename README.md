@@ -1,4 +1,4 @@
-<img align="right" width="600" height="200" src="./imagenes/java.png">
+<img align="right" width="100" height="100" src="./imagenes/java.png">
 
 <h1 align="center"> Idea-Iudice-3er-preEntrega-</h1>
 
