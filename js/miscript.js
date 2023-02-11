@@ -224,6 +224,9 @@ function addCarrito(e) {
   }
   renderizarCarro(carrito);
   totalRender(carrito);
+  tostadin("Item added", {
+    background: "#F9DCD5",
+  });
 }
 
 function removeItem(e) {
@@ -249,6 +252,7 @@ function removeItem(e) {
   unidades = carrito.reduce((a, b) => a + b.unidades, 0);
   renderizarCarro(carrito);
   totalRender(carrito);
+  tostadin("Removed item", { background: "grey" });
 }
 
 function totalRender(array) {
@@ -331,4 +335,20 @@ function borrarStorage() {
   renderizarCarro(carrito);
   renderizar(cuadros);
   comprobar(carrito);
+  Swal.fire({
+    title: "Ey!",
+    text: "Thanks for buying my art",
+    icon: "success",
+    confirmButtonText: "Continue",
+    iconHtml: ` <i class="bi bi-brush"></i>`,
+    iconColor: "pink",
+  });
+}
+
+function tostadin(text, style) {
+  Toastify({
+    text: text,
+    style: style,
+    duration: 2000,
+  }).showToast();
 }
