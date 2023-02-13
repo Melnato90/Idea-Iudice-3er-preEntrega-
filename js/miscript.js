@@ -57,6 +57,7 @@ let cuadros = [
   },
 ];
 
+fglobal(cuadros);
 function fglobal(cuadros) {
   let carrito = [];
   let carritoJSON = "";
@@ -228,7 +229,7 @@ function fglobal(cuadros) {
     renderizarCarro(carrito);
     totalRender(carrito);
     tostadin("Item added", {
-      background: "#F9DCD5",
+      background: "#965DA6",
     });
   }
 
@@ -339,7 +340,7 @@ function fglobal(cuadros) {
     renderizar(cuadros);
     comprobar(carrito);
     Swal.fire({
-      title: "Ey!",
+      title: "Payment approved!",
       text: "Thanks for buying my art",
       icon: "success",
       showConfirmButton: false,
