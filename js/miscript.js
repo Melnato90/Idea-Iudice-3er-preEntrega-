@@ -57,70 +57,73 @@ let cuadros = [
   },
 ];
 
-let carrito = [];
-let carritoJSON = "";
-let contenedor = document.getElementById("contenedor");
-let carritoRender = document.getElementById("cart-row");
-let modal = document.getElementById("myModal");
-let cartNav = document.getElementById("cart-nav");
-let botonCarrito = document.getElementById("cart-button");
-let total = document.getElementById("total");
-botonCarrito.addEventListener("click", mostrar);
-let contenedorCarritoTotal = document.getElementById("contenedorCarritoTotal");
-let totalFinal = "";
-let unidades = "";
-
-renderizar(cuadros);
-
-comprobar(carrito);
-
-function comprobar() {
-  if (localStorage.getItem("Carrito")) {
-    carrito = JSON.parse(localStorage.getItem("Carrito"));
-    renderizarCarro(carrito);
-    totalRender(carrito);
-  } else {
-    totalRenderVacio(carrito);
-  }
-}
-
-let lonely = document.getElementById("Lonely");
-let distraction = document.getElementById("Distraction");
-let people = document.getElementById("People");
-let inside = document.getElementById("Inside");
-
-let inicio = document.getElementById("Inicio");
-let logo = document.getElementById("Logo");
-
-inicio.addEventListener("click", renderizarTodo);
-logo.addEventListener("click", renderizarTodo);
-
-lonely.addEventListener("click", filtro);
-distraction.addEventListener("click", filtro);
-people.addEventListener("click", filtro);
-inside.addEventListener("click", filtro);
-
-function filtro(e) {
-  e.preventDefault();
-  console.log(e.target.id);
-  let categoriaFiltrado = cuadros.filter(
-    (cuadro) => cuadro.categoria == e.target.id
+function fglobal(cuadros) {
+  let carrito = [];
+  let carritoJSON = "";
+  let contenedor = document.getElementById("contenedor");
+  let carritoRender = document.getElementById("cart-row");
+  let modal = document.getElementById("myModal");
+  let cartNav = document.getElementById("cart-nav");
+  let botonCarrito = document.getElementById("cart-button");
+  let total = document.getElementById("total");
+  botonCarrito.addEventListener("click", mostrar);
+  let contenedorCarritoTotal = document.getElementById(
+    "contenedorCarritoTotal"
   );
-  renderizar(categoriaFiltrado);
-}
+  let totalFinal = "";
+  let unidades = "";
 
-function renderizarTodo(e) {
-  e.preventDefault();
   renderizar(cuadros);
-}
 
-function renderizar(array) {
-  contenedor.innerHTML = "";
-  for (const cuadro of array) {
-    let tarjetaBody = document.createElement("div");
+  comprobar(carrito);
 
-    tarjetaBody.className = "tarjeta-body";
-    tarjetaBody.innerHTML = `
+  function comprobar() {
+    if (localStorage.getItem("Carrito")) {
+      carrito = JSON.parse(localStorage.getItem("Carrito"));
+      renderizarCarro(carrito);
+      totalRender(carrito);
+    } else {
+      totalRenderVacio(carrito);
+    }
+  }
+
+  let lonely = document.getElementById("Lonely");
+  let distraction = document.getElementById("Distraction");
+  let people = document.getElementById("People");
+  let inside = document.getElementById("Inside");
+
+  let inicio = document.getElementById("Inicio");
+  let logo = document.getElementById("Logo");
+
+  inicio.addEventListener("click", renderizarTodo);
+  logo.addEventListener("click", renderizarTodo);
+
+  lonely.addEventListener("click", filtro);
+  distraction.addEventListener("click", filtro);
+  people.addEventListener("click", filtro);
+  inside.addEventListener("click", filtro);
+
+  function filtro(e) {
+    e.preventDefault();
+    console.log(e.target.id);
+    let categoriaFiltrado = cuadros.filter(
+      (cuadro) => cuadro.categoria == e.target.id
+    );
+    renderizar(categoriaFiltrado);
+  }
+
+  function renderizarTodo(e) {
+    e.preventDefault();
+    renderizar(cuadros);
+  }
+
+  function renderizar(array) {
+    contenedor.innerHTML = "";
+    for (const cuadro of array) {
+      let tarjetaBody = document.createElement("div");
+
+      tarjetaBody.className = "tarjeta-body";
+      tarjetaBody.innerHTML = `
           <div class="card">
               <div class="card-img">
                   <img src="${cuadro.img}" alt="Card image cap">
@@ -139,22 +142,22 @@ function renderizar(array) {
           </div>
           `;
 
-    contenedor.append(tarjetaBody);
+      contenedor.append(tarjetaBody);
+    }
+
+    let comprar = document.getElementsByClassName("btn btn-secondary me-md-2");
+
+    for (boton of comprar) {
+      boton.addEventListener("click", addCarrito);
+    }
   }
 
-  let comprar = document.getElementsByClassName("btn btn-secondary me-md-2");
-
-  for (boton of comprar) {
-    boton.addEventListener("click", addCarrito);
-  }
-}
-
-function renderizarCarro(array) {
-  carritoRender.innerHTML = "";
-  for (let cuadro of array) {
-    let cart = document.createElement("div");
-    cart.className = "cart-render";
-    cart.innerHTML = `
+  function renderizarCarro(array) {
+    carritoRender.innerHTML = "";
+    for (let cuadro of array) {
+      let cart = document.createElement("div");
+      cart.className = "cart-render";
+      cart.innerHTML = `
           <div class="cart-row">
               <div  style="flex:1"><img class="row-image" src="${
                 cuadro.img
@@ -179,89 +182,89 @@ function renderizarCarro(array) {
               )}</p></div>
           </div>
           `;
-    carritoRender.append(cart);
+      carritoRender.append(cart);
+    }
+
+    let add = document.getElementsByClassName("chg-quantity update-cart");
+    for (let a of add) {
+      a.addEventListener("click", addCarrito);
+    }
+    let remove = document.getElementsByClassName("chg-quantity-2 update-cart");
+    for (let b of remove) {
+      b.addEventListener("click", removeItem);
+    }
   }
 
-  let add = document.getElementsByClassName("chg-quantity update-cart");
-  for (let a of add) {
-    a.addEventListener("click", addCarrito);
-  }
-  let remove = document.getElementsByClassName("chg-quantity-2 update-cart");
-  for (let b of remove) {
-    b.addEventListener("click", removeItem);
-  }
-}
+  function addCarrito(e) {
+    let productoBuscado = cuadros.find((cuadro) => cuadro.id == e.target.id);
 
-function addCarrito(e) {
-  let productoBuscado = cuadros.find((cuadro) => cuadro.id == e.target.id);
+    let indexCuadro = carrito.findIndex(
+      (cuadro) => cuadro.id == productoBuscado.id
+    );
 
-  let indexCuadro = carrito.findIndex(
-    (cuadro) => cuadro.id == productoBuscado.id
-  );
+    if (indexCuadro != -1) {
+      carrito[indexCuadro].unidades++;
 
-  if (indexCuadro != -1) {
-    carrito[indexCuadro].unidades++;
-
-    carrito[indexCuadro].subtotal =
-      carrito[indexCuadro].precio * carrito[indexCuadro].unidades;
-
-    carritoJSON = JSON.stringify(carrito);
-
-    localStorage.setItem("Carrito", carritoJSON);
-  } else {
-    carrito.push({
-      id: productoBuscado.id,
-      nombre: productoBuscado.nombre,
-      categoria: productoBuscado.categoria,
-      precio: productoBuscado.precio,
-      img: productoBuscado.img,
-      unidades: 1,
-      subtotal: productoBuscado.precio,
-    });
-
-    carritoJSON = JSON.stringify(carrito);
-    localStorage.setItem("Carrito", carritoJSON);
-  }
-  renderizarCarro(carrito);
-  totalRender(carrito);
-  tostadin("Item added", {
-    background: "#F9DCD5",
-  });
-}
-
-function removeItem(e) {
-  let productoBuscado = cuadros.find((cuadro) => cuadro.id == e.target.id);
-  let indexCuadro = carrito.findIndex(
-    (cuadro) => cuadro.id == productoBuscado.id
-  );
-
-  if (indexCuadro != -1) {
-    if (carrito[indexCuadro].unidades >= 2) {
-      carrito[indexCuadro].unidades--;
       carrito[indexCuadro].subtotal =
-        carrito[indexCuadro].subtotal - carrito[indexCuadro].precio;
+        carrito[indexCuadro].precio * carrito[indexCuadro].unidades;
+
       carritoJSON = JSON.stringify(carrito);
+
       localStorage.setItem("Carrito", carritoJSON);
     } else {
-      carrito.splice(indexCuadro, 1);
+      carrito.push({
+        id: productoBuscado.id,
+        nombre: productoBuscado.nombre,
+        categoria: productoBuscado.categoria,
+        precio: productoBuscado.precio,
+        img: productoBuscado.img,
+        unidades: 1,
+        subtotal: productoBuscado.precio,
+      });
+
       carritoJSON = JSON.stringify(carrito);
       localStorage.setItem("Carrito", carritoJSON);
     }
+    renderizarCarro(carrito);
+    totalRender(carrito);
+    tostadin("Item added", {
+      background: "#F9DCD5",
+    });
   }
-  totalFinal = carrito.reduce((a, b) => a + b.subtotal, 0);
-  unidades = carrito.reduce((a, b) => a + b.unidades, 0);
-  renderizarCarro(carrito);
-  totalRender(carrito);
-  tostadin("Removed item", { background: "grey" });
-}
 
-function totalRender(array) {
-  totalFinal = carrito.reduce((a, b) => a + b.subtotal, 0);
-  unidades = carrito.reduce((a, b) => a + b.unidades, 0);
-  total.innerHTML = "";
-  let totalResumen = document.createElement("div");
-  totalResumen.className = "total";
-  totalResumen.innerHTML = `
+  function removeItem(e) {
+    let productoBuscado = cuadros.find((cuadro) => cuadro.id == e.target.id);
+    let indexCuadro = carrito.findIndex(
+      (cuadro) => cuadro.id == productoBuscado.id
+    );
+
+    if (indexCuadro != -1) {
+      if (carrito[indexCuadro].unidades >= 2) {
+        carrito[indexCuadro].unidades--;
+        carrito[indexCuadro].subtotal =
+          carrito[indexCuadro].subtotal - carrito[indexCuadro].precio;
+        carritoJSON = JSON.stringify(carrito);
+        localStorage.setItem("Carrito", carritoJSON);
+      } else {
+        carrito.splice(indexCuadro, 1);
+        carritoJSON = JSON.stringify(carrito);
+        localStorage.setItem("Carrito", carritoJSON);
+      }
+    }
+    totalFinal = carrito.reduce((a, b) => a + b.subtotal, 0);
+    unidades = carrito.reduce((a, b) => a + b.unidades, 0);
+    renderizarCarro(carrito);
+    totalRender(carrito);
+    tostadin("Removed item", { background: "grey" });
+  }
+
+  function totalRender(array) {
+    totalFinal = carrito.reduce((a, b) => a + b.subtotal, 0);
+    unidades = carrito.reduce((a, b) => a + b.unidades, 0);
+    total.innerHTML = "";
+    let totalResumen = document.createElement("div");
+    totalResumen.className = "total";
+    totalResumen.innerHTML = `
       <span class="close">&times;</span> 
       <h5 class="totalh5" >Items: <strong>${unidades}</strong></h5>
       <h5 class="totalh5" >Total:<strong> $ ${totalFinal.toFixed(
@@ -269,86 +272,87 @@ function totalRender(array) {
       )}</strong></h5>
       <button id="clear" style="float:right; margin:5px;" type="button" class="btn btn-outline-success">Pay now</button>
       `;
-  total.append(totalResumen);
+    total.append(totalResumen);
 
-  let span = document.getElementsByClassName("close")[0];
-  span.onclick = function () {
-    modal.style.display = "none";
-  };
+    let span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
 
-  cartNav.innerHTML = "";
-  if (array.lenght != 0) {
-    let parrafo = document.createElement("div");
-    parrafo.className = "cart-total";
-    parrafo.innerHTML = `<p>${unidades}</p>`;
-    cartNav.append(parrafo);
-  } else {
-    let parrafo = document.createElement("div");
-    parrafo.className = "cart-total";
-    parrafo.innerHTML = `<p>0</p>`;
-    cartNav.append(parrafo);
+    cartNav.innerHTML = "";
+    if (array.lenght != 0) {
+      let parrafo = document.createElement("div");
+      parrafo.className = "cart-total";
+      parrafo.innerHTML = `<p>${unidades}</p>`;
+      cartNav.append(parrafo);
+    } else {
+      let parrafo = document.createElement("div");
+      parrafo.className = "cart-total";
+      parrafo.innerHTML = `<p>0</p>`;
+      cartNav.append(parrafo);
+    }
+
+    let clear = document.getElementById("clear");
+    clear.addEventListener("click", borrarStorage);
   }
 
-  let clear = document.getElementById("clear");
-  clear.addEventListener("click", borrarStorage);
-}
-
-function totalRenderVacio(array) {
-  total.innerHTML = "";
-  let totalResumen = document.createElement("div");
-  totalResumen.className = "total";
-  totalResumen.innerHTML = `
+  function totalRenderVacio(array) {
+    total.innerHTML = "";
+    let totalResumen = document.createElement("div");
+    totalResumen.className = "total";
+    totalResumen.innerHTML = `
           <span class="close">&times;</span> 
           <h5 class="totalh5">Items: <strong> 0 </strong></h5>
           <h5 class="totalh5">Total:<strong> $ 0.00 </strong></h5>
           `;
-  total.append(totalResumen);
-  cartNav.innerHTML = "";
-  let parrafo = document.createElement("div");
-  parrafo.className = "cart-total";
-  parrafo.innerHTML = `<p>0</p>`;
-  cartNav.append(parrafo);
+    total.append(totalResumen);
+    cartNav.innerHTML = "";
+    let parrafo = document.createElement("div");
+    parrafo.className = "cart-total";
+    parrafo.innerHTML = `<p>0</p>`;
+    cartNav.append(parrafo);
 
-  let span = document.getElementsByClassName("close")[0];
-  span.onclick = function () {
-    modal.style.display = "none";
-  };
-}
-
-function mostrar(e) {
-  modal.style.display = "block";
-}
-
-window.onclick = function (event) {
-  if (event.target == modal) {
-    modal.style.display = "none";
+    let span = document.getElementsByClassName("close")[0];
+    span.onclick = function () {
+      modal.style.display = "none";
+    };
   }
-};
 
-function borrarStorage() {
-  localStorage.removeItem("Carrito");
-  contenedorCarritoTotal.className = "modal-content";
-  modal.style.display = "none";
+  function mostrar(e) {
+    modal.style.display = "block";
+  }
 
-  carrito = [];
-  totalRenderVacio(carrito);
-  renderizarCarro(carrito);
-  renderizar(cuadros);
-  comprobar(carrito);
-  Swal.fire({
-    title: "Ey!",
-    text: "Thanks for buying my art",
-    icon: "success",
-    confirmButtonText: "Continue",
-    iconHtml: ` <i class="bi bi-brush"></i>`,
-    iconColor: "pink",
-  });
-}
+  window.onclick = function (event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  };
 
-function tostadin(text, style) {
-  Toastify({
-    text: text,
-    style: style,
-    duration: 2000,
-  }).showToast();
+  function borrarStorage() {
+    localStorage.removeItem("Carrito");
+    contenedorCarritoTotal.className = "modal-content";
+    modal.style.display = "none";
+
+    carrito = [];
+    totalRenderVacio(carrito);
+    renderizarCarro(carrito);
+    renderizar(cuadros);
+    comprobar(carrito);
+    Swal.fire({
+      title: "Ey!",
+      text: "Thanks for buying my art",
+      icon: "success",
+      showConfirmButton: false,
+      iconHtml: ` <i class="bi bi-brush"></i>`,
+      iconColor: "pink",
+    });
+  }
+
+  function tostadin(text, style) {
+    Toastify({
+      text: text,
+      style: style,
+      duration: 2000,
+    }).showToast();
+  }
 }
