@@ -56,7 +56,6 @@ let cuadros = [
     img: "./imagenes/mg-min.jpg",
   },
 ];
-
 fglobal(cuadros);
 function fglobal(cuadros) {
   let carrito = [];
