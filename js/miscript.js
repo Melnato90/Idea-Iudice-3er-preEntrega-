@@ -67,25 +67,23 @@ function fglobal(cuadros) {
 
   function renderizar(array) {
     contenedor.innerHTML = "";
-    for (const cuadro of array) {
+    for (const cuadros of array) {
       let tarjetaBody = document.createElement("div");
-
+      let { img, nombre, precio, id } = cuadros;
       tarjetaBody.className = "tarjeta-body";
       tarjetaBody.innerHTML = `
           <div class="card">
               <div class="card-img">
-                  <img src="${cuadro.img}" alt="Card image cap">
+                  <img src="${img}" alt="Card image cap">
               </div>
-              <h5 class="card-title">${cuadro.nombre}</h5>
+              <h5 class="card-title">${nombre}</h5>
               <p class="card-text">
               The value of the illustrations is expressed in US dollars.</p>
               <div class="cardBody">
-                  <h6 class= "precio"><strong>Precio: $ ${cuadro.precio.toFixed(
+                  <h6 class= "precio"><strong>Precio: $ ${precio.toFixed(
                     2
                   )}</strong></h6>
-                  <button id="${
-                    cuadro.id
-                  }"  class="btn btn-secondary me-md-2">Buy</button>
+                  <button id="${id}"  class="btn btn-secondary me-md-2">Buy</button>
               </div>
           </div>
           `;
@@ -102,30 +100,25 @@ function fglobal(cuadros) {
 
   function renderizarCarro(array) {
     carritoRender.innerHTML = "";
-    for (let cuadro of array) {
+    for (let cuadros of array) {
       let cart = document.createElement("div");
+      let { img, nombre, precio, id, unidades, subtotal } = cuadros;
       cart.className = "cart-render";
       cart.innerHTML = `
           <div class="cart-row">
-              <div  style="flex:1"><img class="row-image" src="${
-                cuadro.img
-              }"></div>
-              <div  style="flex:2"><p class="cart-p">${cuadro.nombre}</p></div>
-              <div  style="flex:1"><p class="cart-p">$${cuadro.precio.toFixed(
+              <div  style="flex:1"><img class="row-image" src="${img}"></div>
+              <div  style="flex:2"><p class="cart-p">${nombre}</p></div>
+              <div  style="flex:1"><p class="cart-p">$${precio.toFixed(
                 2
               )}</p></div>
               <div style="flex:1">
-                  <p class="quantity">${cuadro.unidades}</p>
+                  <p class="quantity">${unidades}</p>
                   <div class="quantity">
-                  <img id="${
-                    cuadro.id
-                  }" class="chg-quantity update-cart " src="./imagenes/arrow-up.png">
-                  <img id="${
-                    cuadro.id
-                  }" class="chg-quantity-2 update-cart" src="./imagenes/arrow-down.png">
+                  <img id="${id}" class="chg-quantity update-cart " src="./imagenes/arrow-up.png">
+                  <img id="${id}" class="chg-quantity-2 update-cart" src="./imagenes/arrow-down.png">
                   </div>
               </div>
-              <div style="flex:1"><p class="cart-p">$${cuadro.subtotal.toFixed(
+              <div style="flex:1"><p class="cart-p">$${subtotal.toFixed(
                 2
               )}</p></div>
           </div>
